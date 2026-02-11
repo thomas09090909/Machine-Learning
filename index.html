@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Heart Disease Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .heart-image {
+            max-width: 150px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container my-5">
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <!-- Heart Image -->
+            <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Heart Icon" class="heart-image" />
+
+            <h2 class="card-title mb-4 text-center">Heart Disease Predictor</h2>
+            <form method="POST" action="/">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="number" step="1" min="0" id="age" name="age" class="form-control" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="sex" class="form-label">Sex</label>
+                        <select id="sex" name="sex" class="form-select" required>
+                            <option value="" selected disabled>Select Sex</option>
+                            <option value="1">Male</option>
+                            <option value="0">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="cp" class="form-label">Chest Pain Type</label>
+                        <select id="cp" name="cp" class="form-select" required>
+                            <option value="" selected disabled>Select Chest Pain Type</option>
+                            <option value="0">Typical Angina</option>
+                            <option value="1">Atypical Angina</option>
+                            <option value="2">Non-anginal Pain</option>
+                            <option value="3">Asymptomatic</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="trestbps" class="form-label">Resting Blood Pressure</label>
+                        <input type="number" step="1" min="0" id="trestbps" name="trestbps" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="chol" class="form-label">Cholesterol (mg/dl)</label>
+                        <input type="number" step="1" min="0" id="chol" name="chol" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="fbs" class="form-label">Fasting Blood Sugar &gt; 120 mg/dl</label>
+                        <select id="fbs" name="fbs" class="form-select" required>
+                            <option value="" selected disabled>Select</option>
+                            <option value="1">True</option>
+                            <option value="0">False</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="restecg" class="form-label">Resting ECG Results</label>
+                        <select id="restecg" name="restecg" class="form-select" required>
+                            <option value="" selected disabled>Select ECG Result</option>
+                            <option value="0">Normal</option>
+                            <option value="1">ST-T Wave Abnormality</option>
+                            <option value="2">Left Ventricular Hypertrophy</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="thalach" class="form-label">Max Heart Rate Achieved</label>
+                        <input type="number" step="1" min="0" id="thalach" name="thalach" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="exang" class="form-label">Exercise Induced Angina</label>
+                        <select id="exang" name="exang" class="form-select" required>
+                            <option value="" selected disabled>Select</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="oldpeak" class="form-label">Oldpeak (ST depression induced by exercise)</label>
+                        <input type="number" step="0.1" min="0" id="oldpeak" name="oldpeak" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="slope" class="form-label">Slope of the peak exercise ST segment</label>
+                        <select id="slope" name="slope" class="form-select" required>
+                            <option value="" selected disabled>Select slope</option>
+                            <option value="0">Upsloping</option>
+                            <option value="1">Flat</option>
+                            <option value="2">Downsloping</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="ca" class="form-label">Number of Major Vessels Colored by Fluoroscopy (0-3)</label>
+                        <select id="ca" name="ca" class="form-select" required>
+                            <option value="" selected disabled>Select number</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="thal" class="form-label">Thalassemia</label>
+                        <select id="thal" name="thal" class="form-select" required>
+                            <option value="" selected disabled>Select Thalassemia</option>
+                            <option value="1">Normal</option>
+                            <option value="2">Fixed Defect</option>
+                            <option value="3">Reversable Defect</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-4">Predict</button>
+            </form>
+
+            {% if prediction %}
+            <div class="alert alert-info mt-4 text-center fs-5">
+                <strong>{{ prediction }}</strong>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Heart Disease Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .heart-image {
+            max-width: 150px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+        .info-icon {
+            width: 30px;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        .section-info {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container my-5">
+    <div class="card shadow-sm mx-auto" style="max-width: 700px;">
+        <div class="card-body">
+
+            <!-- General Info Image -->
+<img src="https://dvl2h13awlxkt.cloudfront.net/assets/general-images/Knowledge/_1200x630_crop_center-center_82_none/Coronary-heart-disease.jpg?mtime=1657262027" 
+     alt="Coronary Heart Disease" 
+     style="width: 70%; max-width: 600px; height: auto; display: block; margin: 20px auto;" />
+
+<h2 class="card-title mb-4 text-center">General Information About Heart Health</h2>
+
+            <!-- Info Section -->
+            <div class="mb-4">
+                <h4>About the Inputs <small class="text-muted">(click to expand for details)</small></h4>
+                
+                <div class="accordion" id="infoAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingAge">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAge" aria-expanded="false" aria-controls="collapseAge">
+                                Age 
+                                <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Age Icon" class="info-icon" />
+                            </button>
+                        </h2>
+                        <div id="collapseAge" class="accordion-collapse collapse" aria-labelledby="headingAge" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body section-info">
+                                Age is a key risk factor for heart disease. As people get older, the chance of developing heart-related problems increases because of natural changes in the heart and blood vessels over time. Monitoring age helps the prediction model understand the risk level better.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSex">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSex" aria-expanded="false" aria-controls="collapseSex">
+                                Sex 
+                                <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="Sex Icon" class="info-icon" />
+                            </button>
+                        </h2>
+                        <div id="collapseSex" class="accordion-collapse collapse" aria-labelledby="headingSex" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body section-info">
+                                Biological sex (male or female) influences heart disease risk. Men generally have a higher risk of heart disease at a younger age compared to women, but women’s risk rises after menopause. Including sex helps the model better estimate the likelihood of heart conditions.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCP">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCP" aria-expanded="false" aria-controls="collapseCP">
+                                Chest Pain Type 
+                                <img src="https://cdn-icons-png.flaticon.com/512/2721/2721047.png" alt="Chest Pain Icon" class="info-icon" />
+                            </button>
+                        </h2>
+                        <div id="collapseCP" class="accordion-collapse collapse" aria-labelledby="headingCP" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body section-info">
+                                <section>
+  <h2>Types of Chest Pain</h2>
+  <p>Chest pain is classified into four types based on characteristics, which help assess heart disease risk:</p>
+  <ul>
+    <li>
+      <strong>Typical Angina (TA):</strong>
+      <p>Chest discomfort due to reduced blood flow to the heart (ischemia). Triggered by exertion or stress, relieved by rest or nitroglycerin.</p>
+    </li>
+    <li>
+      <strong>Atypical Angina (ATA):</strong>
+      <p>Chest pain that doesn’t meet all criteria of typical angina. May occur at rest or with less predictable triggers.</p>
+    </li>
+    <li>
+      <strong>Non-Anginal Pain (NAP):</strong>
+      <p>Chest pain not related to heart ischemia. Causes can include muscle strain, acid reflux, or other non-cardiac reasons.</p>
+    </li>
+    <li>
+      <strong>Asymptomatic (ASY):</strong>
+      <p>No chest pain symptoms, but heart disease risk may still be present.</p>
+    </li>
+  </ul>
+</section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingBP">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBP" aria-expanded="false" aria-controls="collapseBP">
+                                Resting Blood Pressure 
+                                <img src="https://cdn-icons-png.flaticon.com/512/2910/2910761.png" alt="Blood Pressure Icon" class="info-icon" />
+                            </button>
+                        </h2>
+                        <div id="collapseBP" class="accordion-collapse collapse" aria-labelledby="headingBP" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body section-info">
+                                <section>
+  <h2>Resting Blood Pressure</h2>
+  <p>Resting blood pressure refers to the measurement of the force exerted by circulating blood on the walls of blood vessels when the heart is at rest between beats. It is an important indicator of cardiovascular health.</p>
+  
+  <h3>How Blood Pressure is Measured</h3>
+  <p>Blood pressure is recorded using two values, expressed in millimeters of mercury (mm Hg):</p>
+  <ul>
+    <li><strong>Systolic Pressure:</strong> The higher number, indicating the pressure in arteries when the heart contracts and pumps blood.</li>
+    <li><strong>Diastolic Pressure:</strong> The lower number, indicating the pressure in arteries when the heart is resting between beats.</li>
+  </ul>
+
+  <h3>Normal Blood Pressure Ranges</h3>
+  <ul>
+    <li><strong>Normal:</strong> Less than 120/80 mm Hg</li>
+    <li><strong>Elevated:</strong> Systolic between 120-129 and diastolic less than 80</li>
+    <li><strong>Hypertension Stage 1:</strong> Systolic between 130-139 or diastolic between 80-89</li>
+    <li><strong>Hypertension Stage 2:</strong> Systolic at least 140 or diastolic at least 90</li>
+    <li><strong>Hypertensive Crisis:</strong> Systolic over 180 and/or diastolic over 120 — requires immediate medical attention.</li>
+  </ul>
+
+  <h3>Why Resting Blood Pressure Matters</h3>
+  <p>Monitoring resting blood pressure helps in early detection of hypertension (high blood pressure), which is a major risk factor for heart disease, stroke, and kidney problems. Maintaining a healthy blood pressure reduces the risk of these serious health conditions.</p>
+  
+  <h3>Factors Affecting Resting Blood Pressure</h3>
+  <ul>
+    <li>Age and genetics</li>
+    <li>Physical activity and fitness level</li>
+    <li>Diet, especially salt intake</li>
+    <li>Stress and emotional health</li>
+    <li>Medications and medical conditions</li>
+  </ul>
+</section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingChol">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChol" aria-expanded="false" aria-controls="collapseChol">
+                                Cholesterol (mg/dl) 
+                                <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Cholesterol Icon" class="info-icon" />
+                            </button>
+                        </h2>
+                        <div id="collapseChol" class="accordion-collapse collapse" aria-labelledby="headingChol" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body section-info">
+                                <section>
+  <h2>Cholesterol</h2>
+  <p>Cholesterol is a waxy, fat-like substance found in all the cells of your body. It is essential for producing hormones, vitamin D, and substances that help digest foods.</p>
+  
+  <h3>Types of Cholesterol</h3>
+  <ul>
+    <li><strong>Low-Density Lipoprotein (LDL):</strong> Known as "bad" cholesterol. High levels can lead to buildup of cholesterol in arteries, increasing the risk of heart disease.</li>
+    <li><strong>High-Density Lipoprotein (HDL):</strong> Known as "good" cholesterol. It helps remove LDL cholesterol from the arteries.</li>
+    <li><strong>Triglycerides:</strong> A type of fat in the blood. High levels can also raise the risk of heart disease.</li>
+  </ul>
+  
+  <h3>Cholesterol Levels and Risk</h3>
+  <ul>
+    <li><strong>Desirable Total Cholesterol:</strong> Less than 200 mg/dL</li>
+    <li><strong>Borderline High:</strong> 200-239 mg/dL</li>
+    <li><strong>High:</strong> 240 mg/dL and above</li>
+  </ul>
+  
+  <h3>Why Cholesterol Matters</h3>
+  <p>High cholesterol can lead to the buildup of plaques in arteries, known as atherosclerosis, which narrows and hardens arteries and can result in heart attacks or strokes.</p>
+  
+  <h3>Factors Affecting Cholesterol Levels</h3>
+  <ul>
+    <li>Diet high in saturated and trans fats</li>
+    <li>Physical inactivity</li>
+    <li>Obesity</li>
+    <li>Smoking</li>
+    <li>Age, gender, and genetics</li>
+  </ul>
+</section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFbs">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFbs" aria-expanded="false" aria-controls="collapseFbs">
+                                Fasting Blood Sugar &gt; 120 mg/dl 
+                                <img src="https://cdn-icons-png.flaticon.com/512/3064/3064193.png" alt="Sugar Icon" class="info-icon" />
+                            </button>
+                        </h2>
+                        <div id="collapseFbs" class="accordion-collapse collapse" aria-labelledby="headingFbs" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body section-info">
+                                <section>
+  <h2>Fasting Blood Sugar</h2>
+  <p>
+    Fasting blood sugar refers to the level of glucose in the blood after abstaining from food and drink (except water) for at least 8 hours. It is a common test used to diagnose diabetes and monitor glucose control in people with diabetes.
+  </p>
+  <p>
+    Normal fasting blood sugar levels are typically:
+    <ul>
+      <li><strong>Normal:</strong> Less than 100 mg/dL (5.6 mmol/L)</li>
+      <li><strong>Prediabetes:</strong> 100 to 125 mg/dL (5.6 to 6.9 mmol/L)</li>
+      <li><strong>Diabetes:</strong> 126 mg/dL (7.0 mmol/L) or higher on two separate tests</li>
+    </ul>
+  </p>
+  <p>
+    Elevated fasting blood sugar may indicate insulin resistance, prediabetes, or diabetes. Regular monitoring is important for those at risk or already diagnosed.
+  </p>
+</section>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingExang">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExang" aria-expanded="false" aria-controls="collapseExang">
+                                Exercise Induced Angina 
+                                <img src="https://cdn-icons-png.flaticon.com/512/2910/2910746.png" alt="Exercise Icon" class="info-icon" />
+                            </button>
+                        </h2>
+                        <div id="collapseExang" class="accordion-collapse collapse" aria-labelledby="headingExang" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body section-info">
+                                <section>
+  <h2>Exercise-Induced Angina</h2>
+  <p>
+    Exercise-induced angina, also known as **exertional angina**, is a type of chest pain that occurs when the heart muscle doesn't get enough oxygen-rich blood during physical activity or stress. It is a common symptom of coronary artery disease (CAD).
+  </p>
+  <p>
+    This condition is typically triggered by:
+    <ul>
+      <li>Physical exertion (e.g., walking, climbing stairs)</li>
+      <li>Emotional stress</li>
+      <li>Cold temperatures</li>
+      <li>Heavy meals</li>
+    </ul>
+  </p>
+  <p>
+    The pain usually subsides with rest or after taking medication like nitroglycerin. Recognizing and managing exercise-induced angina is important to prevent complications such as heart attack.
+  </p>
+</section>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOldpeak">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOldpeak" aria-expanded="false" aria-controls="collapseOldpeak">
+                                Oldpeak (ST Depression) 
+                                <img src="https://cdn-icons-png.flaticon.com/512/2910/2910729.png" alt="ECG Icon" class="info-icon" />
+                            </button>
+                        </h2>
+                        <div id="collapseOldpeak" class="accordion-collapse collapse" aria-labelledby="headingOldpeak" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body section-info">
+                                <section>
+  <h2>Oldpeak</h2>
+  <p>
+    Oldpeak refers to the **ST depression** observed on an electrocardiogram (ECG) during an exercise stress test. It is measured in millimeters and indicates how much the ST segment deviates below the baseline.
+  </p>
+  <p>
+    This measurement is a key indicator of myocardial ischemia (lack of oxygen to the heart muscle). A higher Oldpeak value may suggest more severe coronary artery disease.
+  </p>
+  <p>
+    <strong>Interpretation:</strong>
+    <ul>
+      <li><strong>0 mm:</strong> No ST depression; normal result</li>
+      <li><strong>&gt; 0 mm:</strong> ST segment depression; possible ischemia</li>
+    </ul>
+  </p>
+</section>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSlope">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSlope" aria-expanded="false" aria-controls="collapseSlope">
+                                Slope of the Peak Exercise ST Segment 
+                                <img src="https://cdn-icons-png.flaticon.com/512/2910/2910757.png" alt="Slope Icon" class="info-icon" />
+                            </button>
+                        </h2>
+                        <div id="collapseSlope" class="accordion-collapse collapse" aria-labelledby="headingSlope" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body section-info">
+                                <section>
+  <h2>ST Segment</h2>
+  <p>
+    The <strong>ST segment</strong> is a portion of the electrocardiogram (ECG) that represents the period between the end of ventricular depolarization and the start of repolarization. It appears as a flat, horizontal line on the ECG.
+  </p>
+  <p>
+    Changes in the ST segment can indicate cardiac problems, particularly coronary artery disease.
+  </p>
+  <p>
+    <strong>Common ST Segment Abnormalities:</strong>
+    <ul>
+      <li><strong>ST Elevation:</strong> May indicate acute myocardial infarction (heart attack)</li>
+      <li><strong>ST Depression:</strong> Often suggests myocardial ischemia or reduced blood flow to the heart muscle</li>
+    </ul>
+  </p>
+</section>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
